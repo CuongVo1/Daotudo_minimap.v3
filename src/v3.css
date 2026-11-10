@@ -7,3 +7,13 @@
 #sidebar::before{content:"";position:absolute;z-index:-1;inset:35% 0 0;background:linear-gradient(to bottom,#0d1521 0%,#0d1521b0 20%,#090e16a0 48%,#090e16dd 100%),url('v3-sidebar-ai.webp') center bottom/cover no-repeat;pointer-events:none}
 #sidebar .td-navigation,#sidebar .td-brand,#sidebar .td-legacy-toggle{position:relative;z-index:1}
 #sidebar .td-navigation button{text-shadow:0 1px 4px #000}
+
+/* V3.2.1: SCUM military POI icons and red/black clusters */
+.v321-poi-wrap,.v321-cluster-wrap{background:none!important;border:0!important}
+.v321-poi{width:30px;height:30px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;color:var(--poi-accent);background:linear-gradient(145deg,#1c2630,#090d13);border:1.5px solid var(--poi-accent);border-radius:7px;box-shadow:0 2px 9px #000c,0 0 0 2px #05080ab8;position:relative;transform:rotate(-3deg)}
+.v321-poi::after{content:"";position:absolute;bottom:-6px;left:10px;width:8px;height:8px;background:#0a0f15;border-right:1.5px solid var(--poi-accent);border-bottom:1.5px solid var(--poi-accent);transform:rotate(45deg)}
+.v321-poi svg{width:20px;height:20px;display:block;position:relative;z-index:1;filter:drop-shadow(0 1px 2px #000)}
+.v321-cluster{width:40px;height:40px;display:flex;align-items:center;justify-content:center;gap:2px;border-radius:9px;transform:rotate(-4deg);background:linear-gradient(135deg,#5b1720,#150b10);border:2px solid #e0525e;box-shadow:0 3px 10px #000b,0 0 0 2px #0b1014;color:#fff;font:700 13px/1 system-ui,sans-serif}
+.v321-cluster-cross{font-size:12px;color:#fda4af}
+.v321-cluster strong{font-variant-numeric:tabular-nums}
+.v321-poi:hover{filter:brightness(1.25);transform:scale(1.1);z-index:10}

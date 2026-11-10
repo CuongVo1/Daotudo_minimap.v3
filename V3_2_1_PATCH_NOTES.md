@@ -1,0 +1,1 @@
+V3.2.1 Military POI icons: replaces L.circleMarker with category-specific inline SVG L.divIcon, military red/black cluster icon, no external assets. Category icon mapping is based on category name. POI coordinates are unchanged and remain provisional. Windows runtime not tested.
