@@ -91,7 +91,9 @@
     });
   }
 
-  let showCoords = safeGetStorage('overlay.showCoords', 'true') !== 'false';
+  const v3Overlay = new URLSearchParams(location.search).get('v3overlay') === '1';
+  if(v3Overlay){document.body.classList.add('v3-overlay');const shell=document.getElementById('mapShell');for(const [dir,cls] of [['W','v3-compass-west'],['E','v3-compass-east']]){const el=document.createElement('span');el.className=cls;el.textContent=dir;shell?.appendChild(el)}}
+  let showCoords = !v3Overlay && safeGetStorage('overlay.showCoords', 'true') !== 'false';
   let followPlayer = isBigMap ? false : safeGetStorage('livemap.follow', 'true') !== 'false';
   const clusterKey = isTauri ? 'overlay.clustering' : 'livemap.clustering';
   let useClustering = safeGetStorage(clusterKey, 'false') === 'true';
@@ -972,19 +974,13 @@
       liveMarker.setLatLng(ll);
       const el = liveMarker.getElement();
       if (el) {
-        const stem = el.querySelector('.live-marker-stem');
         const arrow = el.querySelector('.live-marker-arrow');
         if (typeof currentPos.yaw === 'number') {
-          if (stem) stem.style.setProperty('--yaw', `${currentPos.yaw - 90}deg`);
           if (arrow) arrow.style.setProperty('--yaw', `${currentPos.yaw - 90}deg`);
         }
       }
     } else {
-      let html = '<div class="live-marker"><div class="live-marker-dot"></div>';
-      if (typeof currentPos.yaw === 'number') {
-        html += `<div class="live-marker-stem" style="--yaw:${currentPos.yaw - 90}deg"></div>`;
-        html += `<div class="live-marker-arrow" style="--yaw:${currentPos.yaw - 90}deg"></div>`;
-      }
+      let html = `<div class="live-marker"><div class="live-marker-arrow" style="--yaw:${typeof currentPos.yaw === 'number' ? currentPos.yaw - 90 : -90}deg"></div>`;
       html += '</div>';
       liveMarker = L.marker(ll, {
         icon: L.divIcon({

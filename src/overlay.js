@@ -10,7 +10,7 @@ const currentWindow = getCurrentWindow();
 (async () => {
   try {
     const url = await invoke('get_livemap_url');
-    if (url && mapFrame) mapFrame.src = url;
+    if (url && mapFrame) mapFrame.src = url + (url.includes('?') ? '&' : '?') + 'v3overlay=1';
   } catch (err) {
     console.error('Failed to get livemap URL:', err);
   }

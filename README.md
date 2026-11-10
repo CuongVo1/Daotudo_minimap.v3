@@ -125,4 +125,3 @@ MIT
 "# Mini-map" 
 "# Mini-map" 
 "# minimap-scum" 
-"# Daotudo_minimap.v3" 
