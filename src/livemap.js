@@ -1431,6 +1431,49 @@
     }
   })();
 
+  // V3.2: POI are native Leaflet markers, anchored in the same CRS as the player.
+  // SCUM-MAP's 0..320 reference is normalized once; zoom/pan is exclusively Leaflet's job.
+  const v32Overlay = new URLSearchParams(location.search).get('v3overlay') === '1';
+  const v32Kinds = {1:['shield','Bunker'],456:['alert','Abandoned bunker'],763:['lock','Secret bunker'],10:['police','Police'],8:['fuel','Gas station'],80:['flag','Outpost'],26:['pin','Point of interest']};
+  const v32Glyphs = {shield:'⬟',alert:'☢',lock:'▣',police:'★',fuel:'⛽',flag:'⚑',pin:'◆'};
+  const v32Esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  let v32Layer = L.layerGroup().addTo(map), v32Data = null;
+  let v32Selected = new Set(Object.keys(v32Kinds).map(Number));
+  let v32Filter = '';
+  function v32Coords(m){
+    // 0..320 source coordinates -> same 0..256 tile-space as Leaflet.
+    return [MAP_UNITS-(Number(m.y)/320)*MAP_UNITS,(Number(m.x)/320)*MAP_UNITS];
+  }
+  function v32Icon(m){
+    const kind=v32Kinds[m.categoryId]||['pin','POI'];
+    const color=({1:'#ef4444',456:'#e6a33e',763:'#ad77f5',10:'#4da7ff',8:'#4fd98b',80:'#f08b4d',26:'#d9e2e9'})[m.categoryId]||'#ddd';
+    return L.divIcon({className:'v32-poi-wrap',html:`<span class="v32-poi" style="--poi:${color}" aria-label="${v32Esc(kind[1])}">${v32Glyphs[kind[0]]}</span>`,iconSize:[25,29],iconAnchor:[12,27],popupAnchor:[0,-27]});
+  }
+  function v32Draw(){
+    v32Layer.clearLayers();if(!v32Data)return;
+    let shown=0;
+    for(const m of v32Data.markers){
+      if(!v32Selected.has(m.categoryId))continue;
+      const label=m.title||v32Kinds[m.categoryId]?.[1]||'POI';
+      if(v32Filter&&!label.toLowerCase().includes(v32Filter))continue;
+      if(!Number.isFinite(Number(m.x))||!Number.isFinite(Number(m.y)))continue;
+      const marker=L.marker(v32Coords(m),{icon:v32Icon(m),keyboard:false});
+      marker.bindTooltip(v32Esc(label));marker.bindPopup(`<b>${v32Esc(label)}</b><p>${v32Esc(v32Kinds[m.categoryId]?.[1]||'')}</p>`);
+      v32Layer.addLayer(marker);shown++;
+    }
+    const count=document.getElementById('v32PoiCount');if(count)count.textContent=`${shown} POI Public`;
+  }
+  if(!v32Overlay){
+    const panel=document.createElement('div');panel.id='v32PoiPanel';panel.innerHTML='<button type="button" id="v32PoiToggle">POI ▾</button><div id="v32PoiOptions" hidden><input id="v32PoiSearch" placeholder="Tìm POI..."/><div id="v32PoiCategories"></div><small id="v32PoiCount"></small></div>';
+    document.body.appendChild(panel);
+    panel.querySelector('#v32PoiToggle').onclick=()=>{const el=panel.querySelector('#v32PoiOptions');el.hidden=!el.hidden};
+    panel.querySelector('#v32PoiSearch').oninput=e=>{v32Filter=e.target.value.toLowerCase();v32Draw()};
+    panel.querySelector('#v32PoiCategories').innerHTML=Object.entries(v32Kinds).map(([id,v])=>`<label><input type="checkbox" data-cat="${id}" checked>${v32Esc(v[1])}</label>`).join('');
+    panel.querySelectorAll('[data-cat]').forEach(input=>input.onchange=()=>{const id=Number(input.dataset.cat);input.checked?v32Selected.add(id):v32Selected.delete(id);v32Draw()});
+  }
+  // Public dataset only. Private POIs are NEVER fetched or cached in this map view.
+  fetch('v3-poi-public.json').then(r=>{if(!r.ok)throw Error(r.status);return r.json()}).then(d=>{v32Data=d;v32Draw()}).catch(e=>console.warn('Public POI unavailable:',e));
+
   connectWs();
 
 })();

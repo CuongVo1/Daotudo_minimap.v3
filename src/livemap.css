@@ -460,3 +460,14 @@ body.v3-overlay #mapShell::after{content:'N';position:absolute;z-index:1200;top:
 body.v3-overlay #mapShell::before{content:'S';position:absolute;z-index:1200;bottom:8px;left:50%;transform:translateX(-50%);color:#00ffe0;font:bold 18px Segoe UI,sans-serif;text-shadow:0 2px 4px #000;pointer-events:none}
 .v3-compass-west,.v3-compass-east{position:absolute;z-index:1200;top:50%;transform:translateY(-50%);color:#00ffe0;font:bold 18px Segoe UI,sans-serif;text-shadow:0 2px 4px #000;pointer-events:none}
 .v3-compass-west{left:9px}.v3-compass-east{right:9px}
+
+/* V3.2 native POI icons: fixed pixel size, map-anchored at icon tip */
+.v32-poi-wrap{background:none;border:0}
+.v32-poi{display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:5px;background:#10151de8;border:2px solid var(--poi);color:var(--poi);font-size:15px;font-weight:900;text-shadow:0 1px 2px #000;box-shadow:0 2px 6px #000b}
+#v32PoiPanel{position:fixed;right:12px;top:65px;z-index:1600;background:#0c1421ed;color:white;border:1px solid #8c4549;border-radius:8px;padding:7px;max-width:230px;font:12px Segoe UI,sans-serif}
+#v32PoiPanel button{background:#9b2531;color:white;border:0;border-radius:5px;padding:7px 12px;cursor:pointer}
+#v32PoiOptions{padding:8px 3px;max-height:55vh;overflow:auto}
+#v32PoiOptions[hidden]{display:none}
+#v32PoiOptions label{display:block;margin:8px 0}
+#v32PoiOptions input:not([type=checkbox]){width:100%;box-sizing:border-box;background:#111c29;color:white;border:1px solid #445;padding:6px}
+#v32PoiCount{color:#9fd1c3}
