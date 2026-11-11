@@ -81,5 +81,5 @@
   const oldStatus = document.getElementById('trackingPauseState');
   if (oldStatus) oldStatus.textContent = 'API tự động cập nhật mỗi ~1,1 giây';
   const sidebar = document.getElementById('sidebar');
-  if (sidebar) sidebar.insertAdjacentHTML('beforeend','<div class="dao-footer">Được phát triển bởi <strong>team Anh3</strong></div>');
+  if (sidebar) sidebar.insertAdjacentHTML('beforeend','<div class="dao-footer">Được phát triển bởi <strong>Cộng Đồng</strong></div>');
 })();
