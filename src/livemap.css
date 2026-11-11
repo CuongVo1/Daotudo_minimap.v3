@@ -454,7 +454,7 @@ body.bigmap-mode #mapShell {
 
 /* V3.1 single directional player arrow; no dot, stem or circle */
 .live-marker-dot,.live-marker-stem{display:none!important}
-.live-marker-arrow{width:27px!important;height:31px!important;border:0!important;background:#00ffe0!important;clip-path:polygon(50% 0%,100% 100%,50% 76%,0% 100%)!important;filter:drop-shadow(0 0 2px #000);transform:translate(-50%,-50%) rotate(var(--yaw,0deg))!important;transform-origin:50% 50%!important}
+.live-marker-arrow{width:12px!important;height:15px!important;border:0!important;background:#00ffe0!important;clip-path:polygon(50% 0%,100% 100%,50% 76%,0% 100%)!important;filter:drop-shadow(0 0 2px #000);transform:translate(-50%,-50%) rotate(var(--yaw,0deg))!important;transform-origin:50% 50%!important}
 body.v3-overlay #toggleCoords,body.v3-overlay #status{display:none!important}
 body.v3-overlay #mapShell::after{content:'N';position:absolute;z-index:1200;top:34px;left:50%;transform:translateX(-50%);color:#00ffe0;font:bold 18px Segoe UI,sans-serif;text-shadow:0 2px 4px #000;pointer-events:none}
 body.v3-overlay #mapShell::before{content:'S';position:absolute;z-index:1200;bottom:8px;left:50%;transform:translateX(-50%);color:#00ffe0;font:bold 18px Segoe UI,sans-serif;text-shadow:0 2px 4px #000;pointer-events:none}
